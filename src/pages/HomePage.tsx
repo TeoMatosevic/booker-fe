@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Calendar, dateFnsLocalizer, EventProps as RBCEventProps, Views, View } from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
-import enUS from 'date-fns/locale/en-US';
+import { format } from 'date-fns/format';
+import { parse } from 'date-fns/parse';
+import { startOfWeek } from 'date-fns/startOfWeek';
+import { getDay } from 'date-fns/getDay';
+import { enUS } from 'date-fns/locale/en-US';
 
 import apiClient from '../api';
 import { useAuth } from '../contexts/AuthContext';
@@ -199,7 +199,7 @@ const HomePage: React.FC = () => {
     }, [currentGroup, currentProperty]);
 
 
-    const handleSelectSlot = useCallback(({ start, end }: { start: Date, end: Date }) => {
+    const handleSelectSlot = useCallback(({ start }: { start: Date, end: Date }) => {
         if (!currentProperty) {
             alert("Please select a property to create a booking for.");
             return;
@@ -209,7 +209,7 @@ const HomePage: React.FC = () => {
     }, [currentProperty]);
 
     const handleSelectEvent = useCallback((event: Booking) => {
-        alert(`Event: ${event.title}\nStarts: ${event.startDate.toLocaleString()}\nEnds: ${event.endDate.toLocaleString()}`);
+        alert(`Starts: ${event.startDate.toLocaleString()}\nEnds: ${event.endDate.toLocaleString()}`);
         // TODO: Implement view/edit booking modal
     }, []);
 

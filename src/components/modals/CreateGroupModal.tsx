@@ -22,7 +22,7 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
         setIsLoading(true);
         setError(null);
         try {
-            await apiClient.post('/groups/', { name: groupName, description });
+            await apiClient.post('/groups/', { name: groupName });
             setGroupName('');
             onGroupCreated();
             onClose();

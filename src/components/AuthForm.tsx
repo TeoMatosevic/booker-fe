@@ -10,7 +10,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit, isLoading }) =>
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
+    const [_error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
