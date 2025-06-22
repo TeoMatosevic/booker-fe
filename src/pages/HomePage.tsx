@@ -10,13 +10,13 @@ import apiClient from '../api';
 import { useAuth } from '../contexts/AuthContext';
 import { appEmitter } from '../utils/eventEmitter';
 
-// Import Modals
 import CreateGroupModal from '../components/modals/CreateGroupModal';
 import AddPropertyModal from '../components/modals/AddPropertyModal';
 import CreateGroupCodeModal from '../components/modals/CreateGroupCodeModal';
 import CreateBookingModal from '../components/modals/CreateBookingModal';
 import DisplayGroupCodeModal from '../components/modals/DisplayGroupCodeModal';
 import JoinGroupModal from '../components/modals/JoinGroupModal';
+import ViewEditBookingModal from '../components/modals/ViewEditBookingModal';
 
 import { Group, Property, Booking } from '../models';
 
@@ -45,6 +45,8 @@ const HomePage: React.FC = () => {
     const [isJoinGroupModalOpen, setIsJoinGroupModalOpen] = useState(false);
     const [generatedGroupCode, setGeneratedGroupCode] = useState<string | null>(null);
     const [generatedCodeForGroupName, setGeneratedCodeForGroupName] = useState<string | null>(null);
+    const [isViewEditBookingModalOpen, setIsViewEditBookingModalOpen] = useState(false);
+    const [selectedBookingForEdit, setSelectedBookingForEdit] = useState<Booking | null>(null);
 
     const currentGroup = useMemo(() => groups.find(g => g.id === selectedGroupId) || null, [groups, selectedGroupId]);
     const currentGroupProperties = useMemo(() => {
@@ -114,7 +116,6 @@ const HomePage: React.FC = () => {
 
     const fetchBookingsForProperty = useCallback(async (propertyId: string) => {
         if (!propertyId || !token) { setBookings(prev => prev.filter(b => b.propertyId !== propertyId)); return []; }
-        console.log("Fetching bookings for property:", propertyId);
         try {
             const response = await apiClient.get(`/bookings/property/${propertyId}`);
             const fetchedBookings: Booking[] = (response.data || []).map((b: any) => ({
@@ -209,8 +210,8 @@ const HomePage: React.FC = () => {
     }, [currentProperty]);
 
     const handleSelectEvent = useCallback((event: Booking) => {
-        alert(`Starts: ${event.startDate.toLocaleString()}\nEnds: ${event.endDate.toLocaleString()}`);
-        // TODO: Implement view/edit booking modal
+        setSelectedBookingForEdit(event);
+        setIsViewEditBookingModalOpen(true);
     }, []);
 
     const handleGroupJoined = () => {
@@ -224,6 +225,21 @@ const HomePage: React.FC = () => {
         if (selectedGroupId) await fetchPropertiesForGroup(selectedGroupId);
         if (selectedPropertyId) await fetchBookingsForProperty(selectedPropertyId);
         setIsLoadingData(false);
+    };
+
+    const handleBookingDeleted = () => {
+        if (selectedPropertyId) {
+            setIsLoadingData(true);
+            fetchBookingsForProperty(selectedPropertyId).finally(() => setIsLoadingData(false));
+        }
+        setSelectedBookingForEdit(null);
+    };
+
+    const handleBookingUpdated = () => {
+        if (selectedPropertyId) {
+            setIsLoadingData(true);
+            fetchBookingsForProperty(selectedPropertyId).finally(() => setIsLoadingData(false));
+        }
     };
 
     const refreshDataForCurrentSelections = async () => {
@@ -258,6 +274,17 @@ const HomePage: React.FC = () => {
                 isOpen={isJoinGroupModalOpen}
                 onClose={() => setIsJoinGroupModalOpen(false)}
                 onGroupJoined={handleGroupJoined}
+            />
+            <ViewEditBookingModal
+                isOpen={isViewEditBookingModalOpen}
+                onClose={() => {
+                    setIsViewEditBookingModalOpen(false);
+                    setSelectedBookingForEdit(null);
+                }}
+                booking={selectedBookingForEdit}
+                property={currentProperty}
+                onBookingUpdated={handleBookingUpdated}
+                onBookingDeleted={handleBookingDeleted}
             />
 
             <header className="bg-white p-3 sm:p-4 border-b border-gray-200 sticky top-16 z-30 shadow-sm">
