@@ -9,8 +9,6 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-    //if (!isOpen) return null;
-
     const handleActionClick = (eventName: string) => {
         appEmitter.emit(eventName);
         onClose();
@@ -23,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             onClick={onClose}
         >
             <div
-                className="fixed top-0 left-0 w-64 h-full bg-gray-800 text-gray-100 p-5 z-50 shadow-lg transition transform duration-300 ease-in-out"
+                className="fixed top-0 left-0 w-full sm:w-64 h-full bg-gray-800 text-gray-100 p-5 z-50 shadow-lg transition transform duration-300 ease-in-out"
                 onClick={(e) => e.stopPropagation()}
                 style={{ transform: isOpen ? 'translateX(0)' : 'translateX(-100%)' }}
             >

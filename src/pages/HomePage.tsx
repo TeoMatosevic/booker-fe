@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
             />
 
             <header className="bg-white p-3 sm:p-4 border-b border-gray-200 sticky top-16 z-30 shadow-sm">
-                <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4">
+                <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-2 sm:gap-4">
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
                         <select
                             id="group-select"
@@ -317,9 +317,9 @@ const HomePage: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="flex gap-2 mt-2 sm:mt-0 flex-shrink-0">
+                    <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 w-full sm:w-auto justify-start sm:justify-end flex-shrink-0">
                         {currentProperty && <button onClick={() => { setBookingModalInitialDate(new Date()); setIsCreateBookingModalOpen(true); }}
-                            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-sm disabled:opacity-70 cursor-pointer">
+                            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-sm disabled:opacity-70 cursor-pointer">
                             New Booking
                         </button>}
                     </div>

@@ -28,11 +28,12 @@ const Navbar: React.FC = () => {
                             </>
                         ) : (
                             <>
-                                <div className="mr-4" />
+                                <div className="mr-4 w-[40px] h-[40px]" />
                             </>
                         )}
                         <Link to="/" className="text-xl font-bold">Booker</Link>
                     </div>
+
                     <div className="hidden md:flex items-center space-x-4">
                         {isLoggedIn ? (
                             <>
@@ -46,21 +47,29 @@ const Navbar: React.FC = () => {
                             </>
                         ) : (
                             <>
-                                <Link to="/login" className="hover:text-gray-300">Login</Link>
-                                <Link to="/register" className="hover:text-gray-300">Register</Link>
+                                <Link to="/login" className="hover:text-gray-300 px-3 py-2 text-sm rounded-md">Login</Link>
+                                <Link to="/register" className="hover:text-gray-300 px-3 py-2 text-sm rounded-md">Register</Link>
                             </>
                         )}
                     </div>
-                    {isLoggedIn && !isSidebarOpen && (
-                        <div className="md:hidden">
-                            <button
-                                onClick={handleLogout}
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
-                            >
-                                Logout
-                            </button>
-                        </div>
-                    )}
+
+                    <div className="md:hidden">
+                        {isLoggedIn ? (
+                            !isSidebarOpen && (
+                                <button
+                                    onClick={handleLogout}
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
+                                >
+                                    Logout
+                                </button>
+                            )
+                        ) : (
+                            <div className="flex items-center space-x-2">
+                                <Link to="/login" className="hover:text-gray-300 px-2 py-1 text-xs rounded-md">Login</Link>
+                                <Link to="/register" className="hover:text-gray-300 px-2 py-1 text-xs rounded-md">Register</Link>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </nav>
             {isLoggedIn && (

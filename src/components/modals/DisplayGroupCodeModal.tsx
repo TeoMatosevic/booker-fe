@@ -58,7 +58,7 @@ const DisplayGroupCodeModal: React.FC<DisplayGroupCodeModalProps> = ({ isOpen, o
                         type="text"
                         value={code}
                         readOnly
-                        className="flex-grow p-2 text-2xl font-mono tracking-wider border-none bg-transparent focus:ring-0 text-center text-gray-700"
+                        className="flex-grow p-2 text-xl sm:text-2xl font-mono tracking-wider border-none bg-transparent focus:ring-0 text-center text-gray-700"
                         aria-label="Group Invite Code"
                     />
                     <button
