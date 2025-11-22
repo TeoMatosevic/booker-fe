@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ToastProvider } from './contexts/ToastContext';
 import Navbar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -16,7 +17,7 @@ function AppContent() {
     return (
         <>
             <Navbar />
-            <main className="pt-16">
+            <main>
                 <Routes>
                     <Route
                         path="/login"
@@ -44,9 +45,11 @@ function AppContent() {
 function App() {
     return (
         <Router>
-            <AuthProvider>
-                <AppContent />
-            </AuthProvider>
+            <ToastProvider>
+                <AuthProvider>
+                    <AppContent />
+                </AuthProvider>
+            </ToastProvider>
         </Router>
     );
 }
